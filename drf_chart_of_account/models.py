@@ -1,3 +1,4 @@
+"""Chart of Accounts Layers Models and Classes."""
 from django.db import models
 import uuid
 
