@@ -120,3 +120,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#  drf_chart_of_account config parameters
+DRF_CA_CONFIGS = {
+    'reference_number_multiplayer': 10000,
+}

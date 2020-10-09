@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from .apps import DrfChartOfAccountConfig
-from .scripts import AutoFieldNonPrimaryKey
+from .scripts import AutoFieldNonPrimaryKey, reference_number_builder
 import uuid
 
 
@@ -32,6 +32,15 @@ class LayersBaseModel(models.Model):
         verbose_name_plural = 'Layers Base Models'
         abstract = True
         ordering = ['name']
+
+    def __str__(self):
+        """Return the string representation of the model."""
+        return self.name
+
+    def save(self, *args, **kwargs):
+        """Set the ref_no and save the data to the model."""
+        self.ref_no = reference_number_builder(serial_no=1)
+        return super(LayersBaseModel, self).save(*args, **kwargs)
 
 
 class LayerOneModel(LayersBaseModel):

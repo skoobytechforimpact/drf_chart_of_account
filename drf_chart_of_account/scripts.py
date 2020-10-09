@@ -1,6 +1,7 @@
 """Global classes or functions for this modules are here."""
 from django.db.models import AutoField
 from django.db.models.fields import checks
+from .configs import ModuleConfigurations
 
 
 class AutoFieldNonPrimaryKey(AutoField):
@@ -17,3 +18,9 @@ class AutoFieldNonPrimaryKey(AutoField):
             ]
         else:
             return []
+
+
+def reference_number_builder(layer_no=None, serial_no=0):
+    """Make reference number based on layer number and serial number."""
+    config_obj = ModuleConfigurations()
+    return serial_no + config_obj.get_reference_number_multiplayer()
