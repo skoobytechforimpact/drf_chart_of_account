@@ -1,0 +1,38 @@
+[
+  {
+    "model": "drf_chart_of_account.layerthreemodel",
+    "pk": "cdcd7209-eff8-4ae0-a65b-6064a2f1427d",
+    "fields": {
+      "serial_no": 1,
+      "name": "Dummy Layer Three Data 1",
+      "parent_layer": "67393575-5701-49ba-8ff0-11fac455d69e",
+      "created_by": 1,
+      "created_at": "2020-07-1 14:44:59.193982-04:00",
+      "updated_at": "2020-07-1 14:44:59.193982-04:00"
+    }
+  },
+  {
+    "model": "drf_chart_of_account.layerthreemodel",
+    "pk": "c8bf0587-3baf-4dce-b843-4dbf928dfee0",
+    "fields": {
+      "serial_no": 2,
+      "name": "Dummy Layer Three Data 2",
+      "parent_layer": "67393575-5701-49ba-8ff0-11fac455d69e",
+      "created_by": 1,
+      "created_at": "2020-07-1 14:44:59.193982-04:00",
+      "updated_at": "2020-07-1 14:44:59.193982-04:00"
+    }
+  },
+  {
+    "model": "drf_chart_of_account.layerthreemodel",
+    "pk": "2b9c9a34-b7d3-432b-84d0-8ab1db9c16d4",
+    "fields": {
+      "serial_no": 3,
+      "name": "Dummy Layer Three Data 3",
+      "parent_layer": "a726a29f-9346-4a1f-8d55-db28e62f9fe4",
+      "created_by": 1,
+      "created_at": "2020-07-1 14:44:59.193982-04:00",
+      "updated_at": "2020-07-1 14:44:59.193982-04:00"
+    }
+  }
+]

@@ -70,3 +70,48 @@ class LayerTwoModel(LayersBaseModel):
         verbose_name = 'Layer Two Model'
         verbose_name_plural = 'Layer Two Models'
         abstract = False
+
+
+class LayerThreeModel(LayersBaseModel):
+    """This is the immedieate child class of the LayerTwoModel."""
+
+    parent_layer = models.ForeignKey(LayerTwoModel, related_name='layer_two_child', verbose_name='Parent Layer', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(get_user_model(), related_name='layer_three_created_by', verbose_name='Created by', on_delete=models.CASCADE)
+
+    class Meta(LayersBaseModel.Meta):
+        """Meta data extending from parent Meta class."""
+
+        db_table = str(DrfChartOfAccountConfig.name) + '_layer_three_table'
+        verbose_name = 'Layer Three Model'
+        verbose_name_plural = 'Layer Three Models'
+        abstract = False
+
+
+class LayerFourModel(LayersBaseModel):
+    """This is the immedieate child class of the LayerThreeModel."""
+
+    parent_layer = models.ForeignKey(LayerThreeModel, related_name='layer_three_child', verbose_name='Parent Layer', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(get_user_model(), related_name='layer_four_created_by', verbose_name='Created by', on_delete=models.CASCADE)
+
+    class Meta(LayersBaseModel.Meta):
+        """Meta data extending from parent Meta class."""
+
+        db_table = str(DrfChartOfAccountConfig.name) + '_layer_four_table'
+        verbose_name = 'Layer Four Model'
+        verbose_name_plural = 'Layer Four Models'
+        abstract = False
+
+
+class LayerFiveModel(LayersBaseModel):
+    """This is the immedieate child class of the LayerFourModel."""
+
+    parent_layer = models.ForeignKey(LayerFourModel, related_name='layer_four_child', verbose_name='Parent Layer', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(get_user_model(), related_name='layer_five_created_by', verbose_name='Created by', on_delete=models.CASCADE)
+
+    class Meta(LayersBaseModel.Meta):
+        """Meta data extending from parent Meta class."""
+
+        db_table = str(DrfChartOfAccountConfig.name) + '_layer_five_table'
+        verbose_name = 'Layer Five Model'
+        verbose_name_plural = 'Layer Five Models'
+        abstract = False
