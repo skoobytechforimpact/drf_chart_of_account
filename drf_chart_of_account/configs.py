@@ -21,14 +21,20 @@ class ModuleConfigurations:
         if isinstance(variable, type):
             return True
         else:
-            raise ValidationError("%s must be %s type." % variable % type)
+            return False
 
-    def get_reference_number_multiplayer(self):
+    def get_reference_number_multiplayer(self, settings_object=None):
         """Search and return the reference_number_multiplayer value."""
-        if hasattr(settings, 'DRF_CA_CONFIGS'):
-            if 'reference_number_multiplayer' in settings.DRF_CA_CONFIGS:
-                if self.check_variable_type(settings.DRF_CA_CONFIGS['reference_number_multiplayer'], int):
-                    return settings.DRF_CA_CONFIGS['reference_number_multiplayer']
+        if settings_object is None:
+            settings_object = settings
+        else:
+            settings_object = settings_object
+        if hasattr(settings_object, 'DRF_CA_CONFIGS'):
+            if 'reference_number_multiplayer' in settings_object.DRF_CA_CONFIGS:
+                if self.check_variable_type(settings_object.DRF_CA_CONFIGS['reference_number_multiplayer'], int):
+                    return settings_object.DRF_CA_CONFIGS['reference_number_multiplayer']
+                else:
+                    raise ValidationError('reference_number_multiplayer must be integer type')
             else:
                 return self.reference_number_multiplayer
         else:
