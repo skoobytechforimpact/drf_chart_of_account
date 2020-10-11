@@ -3,7 +3,6 @@
     "model": "drf_chart_of_account.layeronemodel",
     "pk": "5d443fd8-b404-492c-b6f1-9c103f93f364",
     "fields": {
-      "serial_no": 1,
       "name": "Dummy Layer One Data",
       "ref_no": "1.0.0.0.0",
       "created_by": 1,
@@ -15,7 +14,6 @@
     "model": "drf_chart_of_account.layeronemodel",
     "pk": "204666cf-6e9c-48a7-bdd2-50eb20ae8eae",
     "fields": {
-      "serial_no": 2,
       "name": "Dummy Layer Two Data",
       "ref_no": "2.0.0.0.0",
       "created_by": 1,

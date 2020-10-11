@@ -36,11 +36,9 @@ class LayerModelClassesTestCases(TestCase):
         """Test LayerOneModel data."""
         layer_objects = LayerOneModel.objects.all()
         self.assertEqual(layer_objects[0].name, 'Layer one obj one')
-        self.assertEqual(layer_objects[0].serial_no, 1)
         self.assertEqual(layer_objects[0].ref_no, '1.0.0.0.0')
         self.assertEqual(layer_objects[0].created_by.id, 1)
         self.assertEqual(layer_objects[1].name, 'Layer one obj two')
-        self.assertEqual(layer_objects[1].serial_no, 2)
         self.assertEqual(layer_objects[1].ref_no, '2.0.0.0.0')
         self.assertEqual(layer_objects[1].created_by.id, 1)
 
@@ -48,10 +46,38 @@ class LayerModelClassesTestCases(TestCase):
         """Test LayerTwoModel data."""
         layer_objects = LayerTwoModel.objects.all()
         self.assertEqual(layer_objects[0].name, 'Layer two obj one')
-        self.assertEqual(layer_objects[0].serial_no, 1)
         self.assertEqual(layer_objects[0].ref_no, '1.1.0.0.0')
         self.assertEqual(layer_objects[0].created_by.id, 1)
         self.assertEqual(layer_objects[1].name, 'Layer two obj two')
-        self.assertEqual(layer_objects[1].serial_no, 2)
         self.assertEqual(layer_objects[1].ref_no, '2.1.0.0.0')
+        self.assertEqual(layer_objects[1].created_by.id, 1)
+
+    def test_layer_three_model_data(self):
+        """Test LayerThreeModel data."""
+        layer_objects = LayerThreeModel.objects.all()
+        self.assertEqual(layer_objects[0].name, 'Layer three obj one')
+        self.assertEqual(layer_objects[0].ref_no, '1.1.1.0.0')
+        self.assertEqual(layer_objects[0].created_by.id, 1)
+        self.assertEqual(layer_objects[1].name, 'Layer three obj two')
+        self.assertEqual(layer_objects[1].ref_no, '2.1.1.0.0')
+        self.assertEqual(layer_objects[1].created_by.id, 1)
+
+    def test_layer_four_model_data(self):
+        """Test LayerFourModel data."""
+        layer_objects = LayerFourModel.objects.all()
+        self.assertEqual(layer_objects[0].name, 'Layer four obj one')
+        self.assertEqual(layer_objects[0].ref_no, '1.1.1.1.0')
+        self.assertEqual(layer_objects[0].created_by.id, 1)
+        self.assertEqual(layer_objects[1].name, 'Layer four obj two')
+        self.assertEqual(layer_objects[1].ref_no, '2.1.1.1.0')
+        self.assertEqual(layer_objects[1].created_by.id, 1)
+
+    def test_layer_five_model_data(self):
+        """Test LayerFiveModel data."""
+        layer_objects = LayerFiveModel.objects.all()
+        self.assertEqual(layer_objects[0].name, 'Layer five obj one')
+        self.assertEqual(layer_objects[0].ref_no, '1.1.1.1.1')
+        self.assertEqual(layer_objects[0].created_by.id, 1)
+        self.assertEqual(layer_objects[1].name, 'Layer five obj two')
+        self.assertEqual(layer_objects[1].ref_no, '2.1.1.1.1')
         self.assertEqual(layer_objects[1].created_by.id, 1)

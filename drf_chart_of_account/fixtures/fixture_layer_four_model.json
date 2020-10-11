@@ -3,7 +3,6 @@
     "model": "drf_chart_of_account.layerfourmodel",
     "pk": "c336d7f1-68c7-44be-b51d-50b4621773c5",
     "fields": {
-      "serial_no": 1,
       "name": "Dummy Layer Four Data 1",
       "parent_layer": "cdcd7209-eff8-4ae0-a65b-6064a2f1427d",
       "ref_no": "1.1.1.1.0",
@@ -16,7 +15,6 @@
     "model": "drf_chart_of_account.layerfourmodel",
     "pk": "1b97c073-83d0-49c9-8ff3-e7076c79308f",
     "fields": {
-      "serial_no": 2,
       "name": "Dummy Layer Four Data 2",
       "parent_layer": "cdcd7209-eff8-4ae0-a65b-6064a2f1427d",
       "ref_no": "1.1.1.2.0",
@@ -29,7 +27,6 @@
     "model": "drf_chart_of_account.layerfourmodel",
     "pk": "8b0bfbf0-834b-4930-b41a-69538dfeeb2c",
     "fields": {
-      "serial_no": 3,
       "name": "Dummy Layer Four Data 3",
       "ref_no": "2.1.1.1.0",
       "parent_layer": "2b9c9a34-b7d3-432b-84d0-8ab1db9c16d4",
