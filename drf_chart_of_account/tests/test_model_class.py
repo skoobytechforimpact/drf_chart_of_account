@@ -32,7 +32,26 @@ class LayerModelClassesTestCases(TestCase):
         layer_five_object_two = LayerFiveModel(name='Layer five obj two', parent_layer=layer_four_object_two, created_by=test_user)
         layer_five_object_two.save()
 
-    def layer_one_model_data(self):
+    def test_layer_one_model_data(self):
         """Test LayerOneModel data."""
-        layer_one_objects = LayerOneModel.objects.all()
-        self.assertLessEqual(layer_one_objects[0].name, 'Layer one obj one')
+        layer_objects = LayerOneModel.objects.all()
+        self.assertEqual(layer_objects[0].name, 'Layer one obj one')
+        self.assertEqual(layer_objects[0].serial_no, 1)
+        self.assertEqual(layer_objects[0].ref_no, '1.0.0.0.0')
+        self.assertEqual(layer_objects[0].created_by.id, 1)
+        self.assertEqual(layer_objects[1].name, 'Layer one obj two')
+        self.assertEqual(layer_objects[1].serial_no, 2)
+        self.assertEqual(layer_objects[1].ref_no, '2.0.0.0.0')
+        self.assertEqual(layer_objects[1].created_by.id, 1)
+
+    def test_layer_two_model_data(self):
+        """Test LayerTwoModel data."""
+        layer_objects = LayerTwoModel.objects.all()
+        self.assertEqual(layer_objects[0].name, 'Layer two obj one')
+        self.assertEqual(layer_objects[0].serial_no, 1)
+        self.assertEqual(layer_objects[0].ref_no, '1.1.0.0.0')
+        self.assertEqual(layer_objects[0].created_by.id, 1)
+        self.assertEqual(layer_objects[1].name, 'Layer two obj two')
+        self.assertEqual(layer_objects[1].serial_no, 2)
+        self.assertEqual(layer_objects[1].ref_no, '2.1.0.0.0')
+        self.assertEqual(layer_objects[1].created_by.id, 1)

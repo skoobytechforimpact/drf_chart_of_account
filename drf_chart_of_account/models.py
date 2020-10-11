@@ -1,7 +1,6 @@
 """Chart of Accounts Layers Models and Classes."""
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .apps import DrfChartOfAccountConfig
 import uuid
 
@@ -16,7 +15,6 @@ class LayersBaseModel(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name='ID')
-    serial_no = models.IntegerField(null=False, blank=False, unique=True, verbose_name='Serial No.')
     name = models.CharField(max_length=80, null=False, blank=False, verbose_name='Layer Name')
     ref_no = models.CharField(max_length=80, null=False, blank=False, unique=True, verbose_name='Reference No.')
     is_active = models.BooleanField(default=True, verbose_name='Active')
@@ -37,31 +35,22 @@ class LayersBaseModel(models.Model):
         """Return the string representation of the model."""
         return self.name
 
-    def get_serial_no(self):
+    def get_serial_no(self, parent_id=None):
         """Calculate the serial number of the instance."""
-        try:
-            return self.__class__.objects.latest('serial_no').serial_no + 1
-        except ObjectDoesNotExist:
-            return 1
-
-    def get_related_serial_no(self, parent_serial_no):
-        """Calculate the related serial number against a parent layer serial number."""
-        return self.__class__.objects.filter(parent_layer__serial_no=parent_serial_no).count() + 1
+        if parent_id is None:
+            return str(self.__class__.objects.all().count() + 1)
+        else:
+            return str(self.__class__.objects.filter(parent_layer__id=parent_id).count() + 1)
 
     def get_ref_no(self, layer_no):
         """Calculate the reference number of the instance."""
-        if layer_no == 1:
-            return str(self.serial_no) + '.0.0.0.0'
-        elif layer_no == 2:
-            return str(self.parent_layer.serial_no) + '.' + str(self.get_related_serial_no(self.parent_layer.serial_no)) + '.0.0.0'
-        elif layer_no == 3:
-            return str(self.parent_layer.parent_layer.serial_no) + '.' + str(self.parent_layer.serial_no) + '.' + str(self.get_related_serial_no(self.parent_layer.serial_no)) + '.0.0'
-        elif layer_no == 4:
-            return str(self.parent_layer.parent_layer.parent_layer.serial_no) + '.' + str(self.parent_layer.parent_layer.serial_no) + '.' + str(self.parent_layer.serial_no) + '.' + str(self.get_related_serial_no(self.parent_layer.serial_no)) + '.0'
-        elif layer_no == 5:
-            return str(self.parent_layer.parent_layer.parent_layer.parent_layer.serial_no) + '.' + str(self.parent_layer.parent_layer.parent_layer.serial_no) + '.' + str(self.parent_layer.parent_layer.serial_no) + '.' + str(self.parent_layer.serial_no) + '.' + str(self.get_related_serial_no(self.parent_layer.serial_no))
+        if layer_no > 1:
+            index_num = layer_no - 1
+            parent_ref_no = self.parent_layer.ref_no.split('.')
+            parent_ref_no[index_num] = self.get_serial_no(self.parent_layer.id)
+            return ".".join(parent_ref_no)
         else:
-            raise ValidationError('layer no is not correct')
+            return str(self.get_serial_no()) + '.0.0.0.0'
 
 
 class LayerOneModel(LayersBaseModel):
@@ -79,7 +68,6 @@ class LayerOneModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
-        self.serial_no = self.get_serial_no()
         self.ref_no = self.get_ref_no(1)
         return super(LayerOneModel, self).save(*args, **kwargs)
 
@@ -100,8 +88,7 @@ class LayerTwoModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
-        self.serial_no = self.get_serial_no()
-        self.ref_no = self.get_ref_no(2)
+        self.ref_no = self.get_ref_no(layer_no=2)
         return super(LayerTwoModel, self).save(*args, **kwargs)
 
 
@@ -121,7 +108,6 @@ class LayerThreeModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
-        self.serial_no = self.get_serial_no()
         self.ref_no = self.get_ref_no(3)
         return super(LayerThreeModel, self).save(*args, **kwargs)
 
@@ -142,7 +128,6 @@ class LayerFourModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
-        self.serial_no = self.get_serial_no()
         self.ref_no = self.get_ref_no(4)
         return super(LayerFourModel, self).save(*args, **kwargs)
 
@@ -163,6 +148,5 @@ class LayerFiveModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
-        self.serial_no = self.get_serial_no()
         self.ref_no = self.get_ref_no(5)
         return super(LayerFiveModel, self).save(*args, **kwargs)
