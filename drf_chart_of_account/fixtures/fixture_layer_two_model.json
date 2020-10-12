@@ -1,10 +1,10 @@
 [
   {
     "model": "drf_chart_of_account.layertwomodel",
-    "pk": "67393575-5701-49ba-8ff0-11fac455d69e",
+    "pk": "1",
     "fields": {
       "name": "Dummy Layer Two Data 1",
-      "parent_layer": "5d443fd8-b404-492c-b6f1-9c103f93f364",
+      "parent_layer": "1",
       "ref_no": "1.1.0.0.0",
       "created_by": 1,
       "created_at": "2020-07-1 14:44:59.193982-04:00",
@@ -13,10 +13,10 @@
   },
   {
     "model": "drf_chart_of_account.layertwomodel",
-    "pk": "8f835dcf-ecba-427c-9b92-408eec3acda3",
+    "pk": "2",
     "fields": {
       "name": "Dummy Layer Two Data 2",
-      "parent_layer": "5d443fd8-b404-492c-b6f1-9c103f93f364",
+      "parent_layer": "1",
       "ref_no": "1.2.0.0.0",
       "created_by": 1,
       "created_at": "2020-07-1 14:44:59.193982-04:00",
@@ -25,10 +25,10 @@
   },
   {
     "model": "drf_chart_of_account.layertwomodel",
-    "pk": "a726a29f-9346-4a1f-8d55-db28e62f9fe4",
+    "pk": "3",
     "fields": {
       "name": "Dummy Layer Two Data 3",
-      "parent_layer": "204666cf-6e9c-48a7-bdd2-50eb20ae8eae",
+      "parent_layer": "2",
       "created_by": 1,
       "ref_no": "2.1.0.0.0",
       "created_at": "2020-07-1 14:44:59.193982-04:00",

@@ -3,7 +3,6 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from .apps import DrfChartOfAccountConfig
-import uuid
 
 
 # Create your models here.
@@ -15,7 +14,6 @@ class LayersBaseModel(models.Model):
     parent class
     """
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name='ID')
     name = models.CharField(max_length=80, null=False, blank=False, verbose_name='Layer Name')
     ref_no = models.CharField(max_length=80, null=False, blank=False, unique=True, verbose_name='Reference No.')
     is_active = models.BooleanField(default=True, verbose_name='Active')
@@ -36,22 +34,15 @@ class LayersBaseModel(models.Model):
         """Return the string representation of the model."""
         return self.name
 
-    def get_serial_no(self, parent_id=None):
-        """Calculate the serial number of the instance."""
-        if parent_id is None:
-            return str(self.__class__.objects.all().count() + 1)
-        else:
-            return str(self.__class__.objects.filter(parent_layer__id=parent_id).count() + 1)
-
     def get_ref_no(self, layer_no):
         """Calculate the reference number of the instance."""
         if layer_no > 1:
             index_num = layer_no - 1
             parent_ref_no = self.parent_layer.ref_no.split('.')
-            parent_ref_no[index_num] = self.get_serial_no(self.parent_layer.id)
+            parent_ref_no[index_num] = str(self.pk)
             return ".".join(parent_ref_no)
         else:
-            return str(self.get_serial_no()) + '.0.0.0.0'
+            return str(self.pk) + '.0.0.0.0'
 
     def validate_transaction(self, related_object_name=None):
         """Check if transaction exists of the instance."""
