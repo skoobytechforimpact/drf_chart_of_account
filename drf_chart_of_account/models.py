@@ -1,6 +1,7 @@
 """Chart of Accounts Layers Models and Classes."""
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.core.exceptions import PermissionDenied
 from .apps import DrfChartOfAccountConfig
 import uuid
 
@@ -52,6 +53,25 @@ class LayersBaseModel(models.Model):
         else:
             return str(self.get_serial_no()) + '.0.0.0.0'
 
+    def validate_transaction(self, related_object_name=None):
+        """Check if transaction exists of the instance."""
+        if related_object_name is not None:
+            if getattr(self, related_object_name).exists():
+                raise PermissionDenied('The selected layer has transactions')
+        return True
+
+    def validate_child_relation(self, related_object_name):
+        """Check if related object exists of the instance."""
+        if getattr(self, related_object_name).exists():
+            raise PermissionDenied('The selected layer has child object')
+        return True
+
+    def delete(self, related_object_name):
+        """Check child and transaction relations."""
+        if self.validate_child_relation(related_object_name):
+            if self.validate_transaction():
+                return super(LayersBaseModel, self).delete()
+
 
 class LayerOneModel(LayersBaseModel):
     """This is the parent class for all the layers."""
@@ -70,6 +90,10 @@ class LayerOneModel(LayersBaseModel):
         """Set the ref_no and save the data to the model."""
         self.ref_no = self.get_ref_no(1)
         return super(LayerOneModel, self).save(*args, **kwargs)
+
+    def delete(self):
+        """Check child and transaction relations."""
+        return super(LayerOneModel, self).delete(related_object_name='layer_one_child')
 
 
 class LayerTwoModel(LayersBaseModel):
@@ -91,6 +115,10 @@ class LayerTwoModel(LayersBaseModel):
         self.ref_no = self.get_ref_no(layer_no=2)
         return super(LayerTwoModel, self).save(*args, **kwargs)
 
+    def delete(self):
+        """Check child and transaction relations."""
+        return super(LayerTwoModel, self).delete(related_object_name='layer_two_child')
+
 
 class LayerThreeModel(LayersBaseModel):
     """This is the immedieate child class of the LayerTwoModel."""
@@ -110,6 +138,10 @@ class LayerThreeModel(LayersBaseModel):
         """Set the ref_no and save the data to the model."""
         self.ref_no = self.get_ref_no(3)
         return super(LayerThreeModel, self).save(*args, **kwargs)
+
+    def delete(self):
+        """Check child and transaction relations."""
+        return super(LayerThreeModel, self).delete(related_object_name='layer_three_child')
 
 
 class LayerFourModel(LayersBaseModel):
@@ -131,6 +163,10 @@ class LayerFourModel(LayersBaseModel):
         self.ref_no = self.get_ref_no(4)
         return super(LayerFourModel, self).save(*args, **kwargs)
 
+    def delete(self):
+        """Check child and transaction relations."""
+        return super(LayerFourModel, self).delete(related_object_name='layer_four_child')
+
 
 class LayerFiveModel(LayersBaseModel):
     """This is the immedieate child class of the LayerFourModel."""
@@ -150,3 +186,7 @@ class LayerFiveModel(LayersBaseModel):
         """Set the ref_no and save the data to the model."""
         self.ref_no = self.get_ref_no(5)
         return super(LayerFiveModel, self).save(*args, **kwargs)
+
+    def delete(self):
+        """Check child and transaction relations."""
+        return super(LayerFiveModel, self).delete(related_object_name='layer_five_child')
