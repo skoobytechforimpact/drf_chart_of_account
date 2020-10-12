@@ -62,8 +62,11 @@ class LayersBaseModel(models.Model):
 
     def validate_child_relation(self, related_object_name):
         """Check if related object exists of the instance."""
-        if getattr(self, related_object_name).exists():
-            raise PermissionDenied('The selected layer has child object')
+        try:
+            if getattr(self, related_object_name).exists():
+                raise PermissionDenied('The selected layer has child object')
+        except AttributeError:
+            return True
         return True
 
     def delete(self, related_object_name):
