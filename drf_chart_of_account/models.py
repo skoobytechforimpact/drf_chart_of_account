@@ -75,14 +75,14 @@ class LayersBaseModel(models.Model):
             if self.validate_transaction():
                 return super(LayersBaseModel, self).delete()
 
-    def update(self, related_object_name, *args, **kwargs):
+    def validate_update(self, related_object_name):
         """Check and validate child and transaction relations.
 
         A custom method needed to be called each update operations.
         """
         if self.validate_child_relation(related_object_name):
             if self.validate_transaction():
-                return super(LayersBaseModel, self).save(*args, **kwargs)
+                return True
 
 
 class LayerOneModel(LayersBaseModel):
