@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
 from .apps import DrfChartOfAccountConfig
+import uuid
 
 
 # Create your models here.
@@ -91,6 +92,8 @@ class LayerOneModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
+        self.ref_no = str(uuid.uuid4())
+        super(LayerOneModel, self).save(*args, **kwargs)
         self.ref_no = self.get_ref_no(1)
         return super(LayerOneModel, self).save(*args, **kwargs)
 
@@ -115,7 +118,9 @@ class LayerTwoModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
-        self.ref_no = self.get_ref_no(layer_no=2)
+        self.ref_no = str(uuid.uuid4())
+        super(LayerTwoModel, self).save(*args, **kwargs)
+        self.ref_no = self.get_ref_no(2)
         return super(LayerTwoModel, self).save(*args, **kwargs)
 
     def delete(self):
@@ -139,6 +144,8 @@ class LayerThreeModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
+        self.ref_no = str(uuid.uuid4())
+        super(LayerThreeModel, self).save(*args, **kwargs)
         self.ref_no = self.get_ref_no(3)
         return super(LayerThreeModel, self).save(*args, **kwargs)
 
@@ -163,6 +170,8 @@ class LayerFourModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
+        self.ref_no = str(uuid.uuid4())
+        super(LayerFourModel, self).save(*args, **kwargs)
         self.ref_no = self.get_ref_no(4)
         return super(LayerFourModel, self).save(*args, **kwargs)
 
@@ -187,6 +196,8 @@ class LayerFiveModel(LayersBaseModel):
 
     def save(self, *args, **kwargs):
         """Set the ref_no and save the data to the model."""
+        self.ref_no = str(uuid.uuid4())
+        super(LayerFiveModel, self).save(*args, **kwargs)
         self.ref_no = self.get_ref_no(5)
         return super(LayerFiveModel, self).save(*args, **kwargs)
 

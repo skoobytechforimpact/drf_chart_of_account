@@ -15,10 +15,10 @@ class LayerViewsAPITestCases(TestCase):
 
     def test_post_request_apis(self):
         """Test all layers post request apis."""
-        # request = self.client.post('http://127.0.0.1:8000/accounts/charts/layer/one/', {'name': 'test_api_layer_one', 'created_by': 1})
-        # self.assertEqual(request.status_code, 201)
+        request = self.client.post('http://127.0.0.1:8000/accounts/charts/layer/one/', {'name': 'test_api_layer_one', 'created_by': 1})
+        self.assertEqual(request.status_code, 201)
 
     def test_layer_one_model_viewsets_api(self):
         """Test layer one viewsets apis."""
-        # request = self.client.get('/accounts/charts/layer/one/')
-        # self.assertEqual(request.status_code, 200)
+        request = self.client.get('/accounts/charts/layer/one/')
+        self.assertEqual(request.status_code, 200)
