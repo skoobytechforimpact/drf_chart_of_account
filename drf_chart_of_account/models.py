@@ -35,6 +35,18 @@ class LayersBaseModel(models.Model):
         """Return the string representation of the model."""
         return self.name
 
+    def save(self, *args, **kwargs):
+        """Set the ref_no and save the data to the model."""
+        super(LayersBaseModel, self).save(*args, **kwargs)
+        self.ref_no = self.get_ref_no()
+        return super(LayersBaseModel, self).save(update_fields=['ref_no'])
+
+    def delete(self):
+        """Check child and transaction relations."""
+        if self.validate_child_relation():
+            if self.validate_transaction():
+                return super(LayersBaseModel, self).delete()
+
     def get_ref_no(self):
         """Calculate the reference number of the instance."""
         if self.layer_no > 1:
@@ -75,18 +87,6 @@ class LayersBaseModel(models.Model):
         except AttributeError:
             return True
         return True
-
-    def save(self, *args, **kwargs):
-        """Set the ref_no and save the data to the model."""
-        super(LayersBaseModel, self).save(*args, **kwargs)
-        self.ref_no = self.get_ref_no()
-        return super(LayersBaseModel, self).save(*args, **kwargs)
-
-    def delete(self):
-        """Check child and transaction relations."""
-        if self.validate_child_relation():
-            if self.validate_transaction():
-                return super(LayersBaseModel, self).delete()
 
     def validate_update(self):
         """Check and validate child and transaction relations.
