@@ -15,7 +15,12 @@ class LayersModelBaseSerializer(serializers.ModelSerializer):
 
         model = LayersBaseModel
         fields = '__all__'
-        read_only_fields = ['id', 'ref_no', 'created_at', 'updated_at']
+        read_only_fields = ['id', 'ref_no', 'layer_no', 'created_at', 'updated_at']
+
+    def update(self, instance, validated_data):
+        """Update the instance with custom update validation checking."""
+        if instance.validate_update():
+            return super(LayersModelBaseSerializer, self).update(instance, validated_data)
 
 
 class LayerOneModelSerializer(LayersModelBaseSerializer):
@@ -26,11 +31,6 @@ class LayerOneModelSerializer(LayersModelBaseSerializer):
 
         model = LayerOneModel
 
-    def update(self, instance, validated_data):
-        """Update the instance with custom update validation checking."""
-        if instance.validate_update(related_object_name='layer_one_child'):
-            return super(LayerOneModelSerializer, self).update(instance, validated_data)
-
 
 class LayerTwoModelSerializer(LayersModelBaseSerializer):
     """LayerTwoModel class serializer."""
@@ -39,11 +39,6 @@ class LayerTwoModelSerializer(LayersModelBaseSerializer):
         """Meta data class for the LayerTwoModelSerializer."""
 
         model = LayerTwoModel
-
-    def update(self, instance, validated_data):
-        """Update the instance with custom update validation checking."""
-        if instance.validate_update(related_object_name='layer_two_child'):
-            return super(LayerTwoModelSerializer, self).update(instance, validated_data)
 
 
 class LayerThreeModelSerializer(LayersModelBaseSerializer):
@@ -54,11 +49,6 @@ class LayerThreeModelSerializer(LayersModelBaseSerializer):
 
         model = LayerThreeModel
 
-    def update(self, instance, validated_data):
-        """Update the instance with custom update validation checking."""
-        if instance.validate_update(related_object_name='layer_three_child'):
-            return super(LayerThreeModelSerializer, self).update(instance, validated_data)
-
 
 class LayerFourModelSerializer(LayersModelBaseSerializer):
     """LayerFourModel class serializer."""
@@ -68,11 +58,6 @@ class LayerFourModelSerializer(LayersModelBaseSerializer):
 
         model = LayerFourModel
 
-    def update(self, instance, validated_data):
-        """Update the instance with custom update validation checking."""
-        if instance.validate_update(related_object_name='layer_four_child'):
-            return super(LayerFourModelSerializer, self).update(instance, validated_data)
-
 
 class LayerFiveModelSerializer(LayersModelBaseSerializer):
     """LayerFiveModel class serializer."""
@@ -81,8 +66,3 @@ class LayerFiveModelSerializer(LayersModelBaseSerializer):
         """Meta data class for the LayerFiveModelSerializer."""
 
         model = LayerFiveModel
-
-    def update(self, instance, validated_data):
-        """Update the instance with custom update validation checking."""
-        if instance.validate_update(related_object_name='layer_five_child'):
-            return super(LayerFiveModelSerializer, self).update(instance, validated_data)
