@@ -2,8 +2,8 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from django.core.exceptions import PermissionDenied
-from ..models import (LayerOneModel, LayerTwoModel, LayerThreeModel,
-                      LayerFourModel, LayerFiveModel)
+from drf_chart_of_account.models import (LayerOneModel, LayerTwoModel, LayerThreeModel,
+                                         LayerFourModel, LayerFiveModel)
 
 
 class LayerModelClassesTestCases(TestCase):

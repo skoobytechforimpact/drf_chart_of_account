@@ -1,2 +1,12 @@
 .env
 venv
+.tox
+htmlcov
+drf_chart_of_account.egg-info
+toxtests
+dist
+site
+**/__pycache__
+.pypirc
+build/*
+manage.py
