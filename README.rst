@@ -75,121 +75,73 @@ creating the database migrations
    python manage.py makemigrations
    python manage.py migrate
 
-Basic Usage
+Usage
 -----------
 
-This package ships with one Django Mixin for class based views and one
-function for function based views. The full example can be found on
-examples.py file. However, the examples are explained below:
+This package is shipped with 5 Layer Models. LayerOneModel is the top parent
+model of all and LayerTwoModel is the immediate child of LayerOneModel and
+LayerThreeModel is the immediate child of LayerTwoModel and so on is
+LayerFourModel to LayerThreeModel and LayerFiveModel to LayerFourModel.
 
-Function Based Views:
-'''''''''''''''''''''
+Each model needs a name, parent_layer (for child models) and created_by data
+to create an instance.
 
-on your views.py file import the following module
+If any of the model instance has child data or has transaction (Transaction is
+a feature of Journal application) then the instance can't be updated or
+deleted.
+However, this update validity check only happens if the update operation is
+called from the appropriate Update API. Updating model instance directly without
+the usage of the serializer class will not check the validity.
+The deletion operation always check the validity. It doesn't depend on the
+invoking method.
 
-.. code:: python
+API Details:
+''''''''''''
 
-   from django_user_interaction_log.registrars import create_log_record
+This package only accept json data as request and returns json in response.
+Below are the list of api endpoints for this package.
 
-and on your function based view just add this method as below
+Here <layer_no> belongs to the layer model no. So for different layers the
+numbers are here:
 
-.. code:: python
+LayerOneModel -> one
+LayerTwoModel -> two
+LayerThreeModel -> three
+LayerFourModel -> four
+LayerFiveModel -> five
 
-   def example_function_based_view(request):
-       """This example is for the function based view users"""
-       target_object = None
-       if get_user_model().objects.filter().exists():
-           target_object = get_user_model().objects.first()
-       create_log_record(request=request, log_detail='django_user_interaction_log example function view test operation',
-                         log_target=target_object)
-       return render(request, 'example_templates/example_template.html')
+The model primary key is an integer value.
 
-Here the create_log_record() function is taking 3 optional arguments.
-
-1. request (Which is a Django HttpRequest object. If not provide then
-   it's default value is None)
-
-2. log_detail (A text describing the action performed on that view by
-   the user. If not provided then it's default value is None)
-
-3. log_target (The instance of the page object. Suppose the page is
-   showing a Detail view of Books. so the log_target will be the single
-   book object. If the page is a list page and there are multiple
-   objects or no particular object then just do not use the log_target
-   argument. On that case it will use None as the default value. If any
-   string, integer or float number has passed to this argument then it
-   will raise a ValidationError)
-
-Class Based Views:
-''''''''''''''''''
-
-on the views.py file import the following Mixin
+List API View
 
 .. code:: python
 
-   from django_user_interaction_log.mixins import DjangoUserInteractionLogMixin
+   endpoint: https://your-domain-name/accounts/charts/layer/<layer_number>/
+   method: GET
 
-and on any class based views use this mixin as follow:
+Detail API View
 
 .. code:: python
 
-   class ExampleViewWithMixin(DjangoUserInteractionLogMixin, TemplateView):
-       """This example is for the class based view users"""
-       template_name = 'example_templates/example_template.html'
-       django_user_interaction_log_detail_message = 'django_user_interaction_log example class view test operation'
+   endpoint: https://your-domain-name/accounts/charts/layer/<pk>/
+   method: GET
 
-       def get_log_target_object(self, request, *args, **kwargs):
-           if get_user_model().objects.filter().exists():
-               return get_user_model().objects.first()
-           return None
+Update API View
 
-Here two things to notice that the 'django_user_interaction_log_log_detail_message' and
-'get_log_target_object()'
+.. code:: python
 
-1. 'django_user_interaction_log_log_detail_message' holds the action message performed
-   by the user on this view. If not assign then it will use the default
-   None
-2. 'get_log_target_object()' this method returns the instance of the
-   target object. Same as the log_target on the function based view.
-   Just pass this view specific object here. If the page is a list view
-   or there are no specific target_object then do not override this
-   method. If not overridden the this will use the default value which
-   is None
+   endpoint: https://your-domain-name/accounts/charts/layer/<pk>/
+   method: PUT
 
+Delete API View
 
-Log Records List
-----------------
+.. code:: python
 
-There are two views for the stored log records of this application. But
-one cannot add, update or delete anything on these records through these
-views. To add, delete or update a log record the user must have to use
-the Django default Admin Panel. Where this app will be found on the name
-of 'Event Logger'
-
-1. The default list view can be checked from this URL
-
-  .. code:: python
-
-     https://your-ip-or-domain/django_user_interaction_log/
-
-  with ?format=table or ?format=file will show table and file formatted
-  lists of the logs. For a detail table format view the URL will be
-  https://your-ip-or-domain/django_user_interaction_log/?format=table and for a file
-  format view the URL will be
-  https://your-ip-or-domain/django_user_interaction_log/?format=file
-
-2. The default detail view can be checked from this URL
-
-  .. code:: python
-
-     https://your-ip-or-domain/django_user_interaction_log/3/
-
-  Here 3 is the primary key for that particular log record
+   endpoint: https://your-domain-name/accounts/charts/layer/<pk>/
+   method: DELETE
 
 Package Creator
 ---------------
 
-This package is created by Pritom Borogoria. The package is inspired by
-`Django Activity Stream`_
-
-.. _Django Activity Stream: https://github.com/justquick/django-activity-stream
+This package is created by Skooby Technology for Impact. The package is a
+sub module of a larger Accounting Module
