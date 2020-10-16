@@ -101,39 +101,60 @@ API Details:
 This package only accept json data as request and returns json in response.
 Below are the list of api endpoints for this package.
 
-Here <layer_no> belongs to the layer model no. So for different layers the
+Here **<layer_no>** belongs to the layer model no. So for different layers the
 numbers are here:
 
-LayerOneModel -> one
-LayerTwoModel -> two
-LayerThreeModel -> three
-LayerFourModel -> four
-LayerFiveModel -> five
++------------+------------+
+| Layer Model | URL Text  |
++============+============+
+| LayerOneModel | one     |
++------------+------------+
+| LayerTwoModel | two     |
++------------+------------+
+| LayerThreeModel | three |
++------------+------------+
+| LayerFourModel | four   |
++------------+------------+
+| LayerFiveModel | five   |
++------------+------------+
 
 The model primary key is an integer value.
 
-List API View
+**Create API View**
+
+.. code:: python
+
+   endpoint: https://your-domain-name/accounts/charts/layer/<layer_number>/
+   method: POST
+   payload:
+   {
+      "name": "Dummy Layer One Data Postman",
+      "is_active": true,
+      "created_by": 1
+   }
+
+**List API View**
 
 .. code:: python
 
    endpoint: https://your-domain-name/accounts/charts/layer/<layer_number>/
    method: GET
 
-Detail API View
+**Detail API View**
 
 .. code:: python
 
    endpoint: https://your-domain-name/accounts/charts/layer/<pk>/
    method: GET
 
-Update API View
+**Update API View**
 
 .. code:: python
 
    endpoint: https://your-domain-name/accounts/charts/layer/<pk>/
    method: PUT
 
-Delete API View
+**Delete API View**
 
 .. code:: python
 
