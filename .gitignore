@@ -11,3 +11,4 @@ site
 build/*
 manage.py
 db.sqlite3
+.pypirc
